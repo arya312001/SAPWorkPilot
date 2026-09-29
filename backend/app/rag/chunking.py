@@ -4,9 +4,35 @@ from pypdf import PdfReader
 
 
 def extract_text(file_path: Path) -> str:
-    if file_path.suffix.lower() == ".pdf":
+    suffix = file_path.suffix.lower()
+
+    if suffix == ".pdf":
         reader = PdfReader(str(file_path))
         return "\n".join(page.extract_text() or "" for page in reader.pages)
+
+    if suffix == ".docx":
+        try:
+            import docx  # python-docx
+            doc = docx.Document(str(file_path))
+            return "\n".join(p.text for p in doc.paragraphs if p.text.strip())
+        except ImportError:
+            return file_path.read_text(encoding="utf-8", errors="ignore")
+
+    if suffix == ".xlsx":
+        try:
+            import openpyxl
+            wb = openpyxl.load_workbook(str(file_path), data_only=True)
+            lines = []
+            for ws in wb.worksheets:
+                for row in ws.iter_rows(values_only=True):
+                    line = "\t".join(str(c) if c is not None else "" for c in row)
+                    if line.strip():
+                        lines.append(line)
+            return "\n".join(lines)
+        except ImportError:
+            return ""
+
+    # .txt, .md, .csv and everything else: read as plain text
     return file_path.read_text(encoding="utf-8", errors="ignore")
 
 

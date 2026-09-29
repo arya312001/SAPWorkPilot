@@ -13,7 +13,7 @@ from app.routers.auth import get_current_user
 router = APIRouter(prefix="/documents", tags=["documents"])
 
 DOCS_DIR = Path("data") / "documents"
-ALLOWED_EXTENSIONS = {".pdf", ".txt", ".md"}
+ALLOWED_EXTENSIONS = {".pdf", ".txt", ".md", ".csv", ".docx", ".xlsx"}
 
 
 def _process_document(saved_path: Path, filename: str) -> tuple[str, list, list, int]:

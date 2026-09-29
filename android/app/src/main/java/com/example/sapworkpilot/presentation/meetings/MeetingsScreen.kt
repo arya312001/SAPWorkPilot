@@ -242,10 +242,17 @@ private fun HistoryRow(entry: MeetingSummaryEntity, onDelete: () -> Unit, onShar
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = SimpleDateFormat("dd MMM, HH:mm", Locale.getDefault()).format(Date(entry.createdAt)),
-                    style = MaterialTheme.typography.labelSmall
-                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = entry.title.ifBlank { "Meeting Summary" },
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = SimpleDateFormat("dd MMM, HH:mm", Locale.getDefault()).format(Date(entry.createdAt)),
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
                 Row {
                     TextButton(onClick = { isExpanded = !isExpanded }) {
                         Text(if (isExpanded) "Collapse" else "Expand")

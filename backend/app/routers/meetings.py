@@ -1,7 +1,6 @@
 import re
 
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
 from app.rag.llm import generate_answer, is_llm_configured

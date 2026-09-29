@@ -62,6 +62,7 @@ fun AppNavHost(sessionViewModel: SessionViewModel = hiltViewModel()) {
         val currentUser by sessionViewModel.currentUser.collectAsState()
         AppNavigation(
             startDestination = startDestination,
+            isLoggedIn = loggedIn,
             role = role,
             userName = currentUser?.name,
             userEmail = currentUser?.email,
@@ -73,12 +74,22 @@ fun AppNavHost(sessionViewModel: SessionViewModel = hiltViewModel()) {
 @Composable
 private fun AppNavigation(
     startDestination: String,
+    isLoggedIn: Boolean,
     role: String?,
     userName: String?,
     userEmail: String?,
     onLogout: () -> Unit
 ) {
     val navController = rememberNavController()
+
+    // If the token is cleared mid-session (401 auto-logout), navigate back to login
+    LaunchedEffect(isLoggedIn) {
+        if (!isLoggedIn) {
+            navController.navigate(Screen.Login.route) {
+                popUpTo(0) { inclusive = true }
+            }
+        }
+    }
 
     NavHost(
         navController = navController,
@@ -96,6 +107,7 @@ private fun AppNavigation(
         composable(Screen.Dashboard.route) {
             DashboardScreen(
                 canManageDocuments = role == "admin" || role == "project_manager",
+                isAdmin = role == "admin",
                 userName = userName,
                 onOpenChat = { navController.navigate(Screen.Chat.route) },
                 onOpenHeatmap = { navController.navigate(Screen.Heatmap.route) },

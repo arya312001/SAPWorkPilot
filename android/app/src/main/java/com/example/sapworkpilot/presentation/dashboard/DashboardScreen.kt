@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -41,10 +42,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel = hiltViewModel(),
     canManageDocuments: Boolean = true,
+    isAdmin: Boolean = false,
     userName: String? = null,
     onOpenHeatmap: () -> Unit = {},
     onOpenChat: () -> Unit = {},
@@ -175,7 +178,7 @@ fun DashboardScreen(
                     OutlinedButton(onClick = onOpenSettings, modifier = Modifier.fillMaxWidth()) {
                         Text("Settings")
                     }
-                    if (canManageDocuments) {
+                    if (isAdmin) {
                         OutlinedButton(onClick = onOpenAuditLog, modifier = Modifier.fillMaxWidth()) {
                             Text("Audit Log")
                         }

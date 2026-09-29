@@ -1,6 +1,7 @@
 package com.example.sapworkpilot.presentation.documents
 
 import android.content.Intent
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -49,8 +50,8 @@ fun DocumentUploadScreen(
     var pendingDeleteFilename by remember { mutableStateOf<String?>(null) }
 
     val filePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri ->
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri: Uri? ->
         if (uri == null) return@rememberLauncherForActivityResult
         val name = context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
             val nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
@@ -115,7 +116,18 @@ fun DocumentUploadScreen(
         }
 
         Button(
-            onClick = { filePicker.launch("*/*") },
+            onClick = {
+                filePicker.launch(
+                    arrayOf(
+                        "application/pdf",
+                        "text/plain",
+                        "text/markdown",
+                        "text/csv",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    )
+                )
+            },
             enabled = !state.isUploading,
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -123,7 +135,7 @@ fun DocumentUploadScreen(
                 CircularProgressIndicator(modifier = Modifier.padding(end = 8.dp))
                 Text("Uploading...")
             } else {
-                Text("Choose a PDF or text file")
+                Text("Choose a file (PDF, DOCX, XLSX, CSV, TXT)")
             }
         }
 

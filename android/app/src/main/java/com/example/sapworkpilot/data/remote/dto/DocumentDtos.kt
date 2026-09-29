@@ -17,5 +17,5 @@ data class DocumentStatsDto(
 data class DocumentListItemDto(
     val filename: String,
     val chunks: Int,
-    val uploadedAt: Double? = null
+    @SerializedName("uploaded_at") val uploadedAt: Double? = null
 )
