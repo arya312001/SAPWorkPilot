@@ -1,0 +1,39 @@
+# ──────────────────────────────────────────
+# Android
+# ──────────────────────────────────────────
+android/.gradle/
+android/.kotlin/
+android/build/
+android/app/build/
+android/local.properties
+android/*.iml
+android/.idea/caches/
+android/.idea/libraries/
+android/.idea/modules.xml
+android/.idea/workspace.xml
+android/.idea/navEditor.xml
+android/.idea/assetWizardSettings.xml
+android/captures/
+android/.externalNativeBuild/
+android/.cxx/
+*.apk
+*.aab
+
+# ──────────────────────────────────────────
+# Python backend
+# ──────────────────────────────────────────
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.pyc
+backend/**/*.pyc
+backend/.env
+backend/data/documents/
+backend/data/vector_store.json
+
+# ──────────────────────────────────────────
+# General
+# ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
