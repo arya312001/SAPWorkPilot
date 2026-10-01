@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.sapworkpilot"
+    namespace = "com.arya.sapworkpilot"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.example.sapworkpilot"
+        applicationId = "com.arya.sapworkpilot"
         minSdk = 26
         targetSdk = 37
         versionCode = 1
